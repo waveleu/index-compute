@@ -20,19 +20,26 @@ fun compute() {
             .master("local[*]")
             .appName("`IndexCompute`")
             .orCreate
+
+    //模拟Transaction表
     val path = "/Users/liubo/IdeaProjects/spark-demo-kotlin/Transaction.csv"
     val data = spark.read().option("header", true).csv(path)
+
+    //mysql配置
     val prop = Properties()
     prop.setProperty("user", "root")
     prop.setProperty("password", "root")
 
-    data.show()
-    data.createOrReplaceTempView("orders")
+    //data.show()
+    //建立临时表
+    data.createOrReplaceTempView("target")
 
-    val index = spark.sql("select cast(sum(credit_amount)/sum(amount) as float) as credit_amount_percentage, cast(count(credit_amount)/count(amount) as float) as credit_pay_num_percentage, cast(sum(credit_amount)/count(credit_amount) as float) as credit_unit_price, cast(sum(amount)/count(amount) as float) as unit_price, count(amount) as day_orders from orders group by meid")
+    //计算信用卡金额占比，信用卡支付比例，信用客单价，总客单价，每日交易笔数
+    val index = spark.sql("select cast(sum(credit_amount)/sum(amount) as float) as credit_amount_percentage, cast(count(credit_amount)/count(amount) as float) as credit_pay_num_percentage, cast(sum(credit_amount)/count(credit_amount) as float) as credit_unit_price, cast(sum(amount)/count(amount) as float) as unit_price, count(amount) as day_orders from target group by meid")
     index.write().mode(SaveMode.Append).jdbc("jdbc:mysql://localhost:3306/lehui", "target", prop)
 }
 
 fun main(args: Array<String>) {
+    //开始计算每日指标
     compute()
 }

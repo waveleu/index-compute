@@ -1,7 +1,2 @@
-# spark demo with kotlin
+# compute one day index of store
 
-## how to run
-- cd dir `cd spark-demo-kotlin`
-- first shell command `nc -l 9999`
-- open other terminal run `grade run`
-- write words like `a b c a` at nc terminal
