@@ -3,16 +3,12 @@ package spark.demo
 import org.apache.spark.SparkConf
 import org.apache.spark.api.java.JavaSparkContext
 import org.apache.spark.streaming.Durations
-
 import org.apache.spark.streaming.api.java.JavaStreamingContext
 import org.apache.spark.api.java.StorageLevels
 import org.apache.spark.sql.SparkSession
-
 import org.apache.spark.sql.SaveMode
+
 import java.util.Properties
-import com.beust.jcommander.Parameter
-import com.beust.jcommander.JCommander
-import com.beust.jcommander.ParameterException
 
 fun compute() {
     val spark = SparkSession
