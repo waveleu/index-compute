@@ -74,4 +74,4 @@ protobuf {
     }
 }
 
-mainClassName ='spark.demo.MainKt'
+mainClassName ='spark.demo.IndexComputeKt'
